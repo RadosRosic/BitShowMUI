@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { MenuItem, TextField, Typography } from "@mui/material";
-import { Stack } from "@mui/system";
+import { MenuItem, TextField, Typography, Paper, Stack } from "@mui/material";
 
 const SeasonsInfo = () => {
   const id = useParams().id;
@@ -29,7 +28,7 @@ const SeasonsInfo = () => {
   }, [seasons]); // this serves purpose to get rid of MUI warning: 'You have provided out-of-range value';
 
   return (
-    <>
+    <Paper square elevation={5} sx={{ p: 1.5 }}>
       <Stack direction="row" spacing={2}>
         <TextField
           size="small"
@@ -62,7 +61,7 @@ const SeasonsInfo = () => {
             : "<p>No info</p>",
         }}
       />
-    </>
+    </Paper>
   );
 };
 

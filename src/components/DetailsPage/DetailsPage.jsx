@@ -10,6 +10,7 @@ import MedScreenShowInfo from "./MedScreenShowInfo";
 import CastList from "./CastList";
 import SeasonsInfo from "./SeasonsInfo";
 import ShowImages from "./ShowImages";
+import ImgCarousel from "./ImgCarousel";
 
 const DetailsPage = ({ allShows }) => {
   const id = useParams().id;
@@ -26,9 +27,8 @@ const DetailsPage = ({ allShows }) => {
           elevation={5}
           sx={{ m: 1.5, p: 1.5, width: largeScreen ? "65%" : "inherit" }}
         >
-          <Stack>
-            <ShowHeader show={show} />
-          </Stack>
+          <ShowHeader show={show} />
+
           <Stack direction="row" spacing={2}>
             <ShowPoster showImg={show?.image?.original} />
             {mediumScreen && (
@@ -38,22 +38,10 @@ const DetailsPage = ({ allShows }) => {
           {smallScreen && <ShowAccordion show={show} />}
         </Paper>
         {mediumScreen && !largeScreen && <MedScreenShowInfo />}
-        {largeScreen && (
-          <Paper square elevation={5} sx={{ m: 1.5, p: 1.5, width: "35%" }}>
-            <SeasonsInfo />
-          </Paper>
-        )}
+        {/* {largeScreen && <SeasonsInfo />} */}
       </Stack>
-      {largeScreen && (
-        <Paper square elevation={5} sx={{ m: 1.5, p: 1 }}>
-          <CastList />
-        </Paper>
-      )}
-      {largeScreen && (
-        <Paper square elevation={5} sx={{ m: 1.5, p: 1 }}>
-          <ShowImages />
-        </Paper>
-      )}
+      {largeScreen && <CastList />}
+      {/* {largeScreen && <ImgCarousel />} */}
     </>
   );
 };

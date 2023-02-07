@@ -1,4 +1,4 @@
-import { ImageList, ImageListItem } from "@mui/material";
+import { ImageList, ImageListItem, Paper } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
@@ -11,7 +11,7 @@ const ShowImages = () => {
       .then((data) => setImages(data));
   }, [id]);
   return (
-    <>
+    <Paper square elevation={5} sx={{ m: 1.5, p: 1 }}>
       <ImageList>
         {images?.map((image) => (
           <ImageListItem key={image.id}>
@@ -23,7 +23,7 @@ const ShowImages = () => {
           </ImageListItem>
         ))}
       </ImageList>
-    </>
+    </Paper>
   );
 };
 
