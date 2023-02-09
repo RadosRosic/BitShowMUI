@@ -1,5 +1,4 @@
 import React from "react";
-import { useSearchParams } from "react-router-dom";
 import {
   Drawer,
   Checkbox,
@@ -80,14 +79,14 @@ const Filters = ({
       <Button
         variant="outlined"
         onClick={resetFilters}
-        sx={{ width: "60%", mx: "auto", my: 2 }}
+        sx={{ width: "60%", mx: "auto" }}
       >
         Reset Filters
       </Button>
       <IconButton
         aria-label="Close Drawer"
         onClick={closeDrawer}
-        sx={{ width: "10%", mx: "auto", my: 2 }}
+        sx={{ width: "10%", mx: "auto" }}
       >
         <ArrowBackIcon />
       </IconButton>

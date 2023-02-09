@@ -53,7 +53,7 @@ const ShowCard = ({ show, displaySnackbar }) => {
           <CardMedia component="img" src={show.image.medium} />
         </CardActionArea>
         <CardContent sx={flexSBC}>
-          <Typography variant="h6" component="h2">
+          <Typography variant="subtitle1" component="h2">
             {show.name}
           </Typography>
           <Avatar>{show.rating.average}</Avatar>

@@ -9,15 +9,14 @@ import { IconButton } from "@mui/material";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 
+import { flexSBC } from "../style";
+
 const MainHeader = ({ changeThemeDark, changeThemeLight, darkMode }) => {
   return (
     <AppBar position="static">
       <Toolbar
         sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          width: "100%",
-          m: "auto",
+          ...flexSBC,
           p: 3,
         }}
       >
@@ -30,12 +29,6 @@ const MainHeader = ({ changeThemeDark, changeThemeLight, darkMode }) => {
           component="nav"
           alignItems={"center"}
         >
-          <Typography variant="h6">
-            <Link to="/faq">FAQ</Link>
-          </Typography>
-          <Typography variant="h6">
-            <Link to="/about">About</Link>
-          </Typography>
           <IconButton onClick={darkMode ? changeThemeLight : changeThemeDark}>
             {darkMode ? <LightModeIcon /> : <DarkModeIcon />}
           </IconButton>

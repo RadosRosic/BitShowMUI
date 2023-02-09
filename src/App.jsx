@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 
 import MainHeader from "./components/MainHeader";
 import LandingPage from "./components/LandingPage/LandingPage";
 import DetailsPage from "./components/DetailsPage/DetailsPage";
-import AboutPage from "./pages/AboutPage";
-import FaqPage from "./pages/FaqPage";
 import Filters from "./components/LandingPage/Filters";
-import { Navigate } from "react-router-dom";
 
 const App = () => {
   const [darkMode, setDarkMode] = useState(!!localStorage.getItem("dark mode"));
@@ -69,8 +66,6 @@ const App = () => {
             path="/show/:id"
             element={<DetailsPage allShows={allShows} />}
           />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/faq" element={<FaqPage />} />
         </Routes>
         <Filters
           isDrawerOpen={isDrawerOpen}

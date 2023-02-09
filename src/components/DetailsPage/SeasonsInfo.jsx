@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { MenuItem, TextField, Typography, Paper, Stack } from "@mui/material";
+import { MenuItem, TextField, Typography } from "@mui/material";
+import { Stack } from "@mui/system";
 
 const SeasonsInfo = () => {
   const id = useParams().id;
@@ -28,8 +29,8 @@ const SeasonsInfo = () => {
   }, [seasons]); // this serves purpose to get rid of MUI warning: 'You have provided out-of-range value';
 
   return (
-    <Paper square elevation={5} sx={{ p: 1.5 }}>
-      <Stack direction="row" spacing={2}>
+    <>
+      <Stack direction="row" spacing={1}>
         <TextField
           size="small"
           label="Season"
@@ -44,16 +45,18 @@ const SeasonsInfo = () => {
             </MenuItem>
           ))}
         </TextField>
-        <Typography variant="body2">
-          Episodes: {currentSeason?.episodeOrder}
-        </Typography>
+        <Stack direction="column" spacing={0.5}>
+          <Typography variant="body2">
+            Episodes: {currentSeason?.episodeOrder}
+          </Typography>
+          <Typography variant="body2">
+            {formatDate(currentSeason?.premiereDate)} -{" "}
+            {formatDate(currentSeason?.endDate)}
+          </Typography>
+        </Stack>
       </Stack>
-      <Typography variant="body2" my={1}>
-        {formatDate(currentSeason?.premiereDate)} -{" "}
-        {formatDate(currentSeason?.endDate)}
-      </Typography>
       <Typography
-        variant="subtitle1"
+        variant="body1"
         component="p"
         dangerouslySetInnerHTML={{
           __html: currentSeason?.summary
@@ -61,7 +64,7 @@ const SeasonsInfo = () => {
             : "<p>No info</p>",
         }}
       />
-    </Paper>
+    </>
   );
 };
 

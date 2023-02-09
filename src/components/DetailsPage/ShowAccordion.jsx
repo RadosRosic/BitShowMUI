@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
   Typography,
 } from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+
 import SeasonsInfo from "./SeasonsInfo";
 import CastList from "./CastList";
 import ShowImages from "./ShowImages";

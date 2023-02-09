@@ -1,4 +1,4 @@
-import React, { useState, useReducer, useEffect } from "react";
+import React, { useState, useReducer, useEffect, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import ShowCard from "./ShowCard";
@@ -38,14 +38,17 @@ const LandingPage = ({ allShows, openDrawer, selectedGenres, minRating }) => {
     setSnackbarContent("");
   };
 
-  const handlePageChange = (_, newPage) => {
-    dispatchPagination({ page: newPage });
-    navigate(`/page-${newPage}`);
-  };
+  const handlePageChange = useCallback(
+    (_, newPage) => {
+      dispatchPagination({ page: newPage });
+      navigate(`/page-${newPage}`);
+    },
+    [navigate]
+  );
 
   useEffect(() => {
     handlePageChange(null, currentPage);
-  }, [currentPage]);
+  }, [currentPage, handlePageChange]);
 
   let filteredShows;
   let totalPages;

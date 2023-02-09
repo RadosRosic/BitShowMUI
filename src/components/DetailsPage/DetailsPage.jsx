@@ -1,16 +1,14 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { Stack, Paper, Typography } from "@mui/material";
+import { Stack, Paper, Box, Grid } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
-import ShowHeader from "./ShowHeader";
 import ShowAccordion from "./ShowAccordion";
 import ShowPoster from "./ShowPoster";
-import MedScreenShowInfo from "./MedScreenShowInfo";
 import CastList from "./CastList";
 import SeasonsInfo from "./SeasonsInfo";
-import ShowImages from "./ShowImages";
-import ImgCarousel from "./ImgCarousel";
+import ShowImages2 from "./ShowImages2";
+import ShowInfo from "./ShowInfo";
 
 const DetailsPage = ({ allShows }) => {
   const id = useParams().id;
@@ -21,27 +19,49 @@ const DetailsPage = ({ allShows }) => {
 
   return (
     <>
-      <Stack direction={largeScreen ? "row" : "column"}>
-        <Paper
-          square
-          elevation={5}
-          sx={{ m: 1.5, p: 1.5, width: largeScreen ? "65%" : "inherit" }}
-        >
-          <ShowHeader show={show} />
-
-          <Stack direction="row" spacing={2}>
+      {largeScreen && (
+        <Grid container spacing={2} p={2}>
+          <Grid item xs={8}>
+            <ShowInfo show={show} />
+          </Grid>
+          <Grid item xs={4}>
+            <ShowImages2 />
+          </Grid>
+          <Grid item sx={{ overflow: "hidden" }}>
+            <Paper sx={{ p: 1 }} elevation={5}>
+              <CastList />
+            </Paper>
+          </Grid>
+        </Grid>
+      )}
+      {mediumScreen && !largeScreen && (
+        <Grid container spacing={2} p={2}>
+          <Grid item xs={12}>
+            <ShowInfo show={show} />
+          </Grid>
+          <Grid item xs={12} sx={{ overflow: "hidden" }}>
+            <Paper sx={{ p: 1 }} elevation={5}>
+              <CastList />
+            </Paper>
+          </Grid>
+          <Grid item md={12}>
+            <Paper sx={{ p: 1 }} elevation={5}>
+              <SeasonsInfo />
+            </Paper>
+          </Grid>
+          <Grid item md={12} sx={{ m: "auto" }}>
+            <ShowImages2 />
+          </Grid>
+        </Grid>
+      )}
+      {smallScreen && (
+        <Stack>
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
             <ShowPoster showImg={show?.image?.original} />
-            {mediumScreen && (
-              <Typography dangerouslySetInnerHTML={{ __html: show?.summary }} />
-            )}
-          </Stack>
-          {smallScreen && <ShowAccordion show={show} />}
-        </Paper>
-        {mediumScreen && !largeScreen && <MedScreenShowInfo />}
-        {/* {largeScreen && <SeasonsInfo />} */}
-      </Stack>
-      {largeScreen && <CastList />}
-      {/* {largeScreen && <ImgCarousel />} */}
+          </Box>
+          <ShowAccordion show={show} />
+        </Stack>
+      )}
     </>
   );
 };

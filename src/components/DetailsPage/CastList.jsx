@@ -6,7 +6,6 @@ import {
   ListItem,
   ListItemText,
   ListItemAvatar,
-  Paper,
   Avatar,
   Divider,
   ImageList,
@@ -27,7 +26,7 @@ const CastList = () => {
   }, [id]);
 
   return (
-    <Paper square elevation={5} sx={{ m: 1.5, p: 1 }}>
+    <>
       {smallScreen && (
         <List>
           {cast.map((actor) => (
@@ -66,7 +65,7 @@ const CastList = () => {
           ))}
         </ImageList>
       )}
-    </Paper>
+    </>
   );
 };
 
