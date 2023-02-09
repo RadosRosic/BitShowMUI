@@ -37,7 +37,9 @@ const App = () => {
   useEffect(() => {
     fetch("https://api.tvmaze.com/shows")
       .then((res) => res.json())
-      .then((data) => setAllShows(data));
+      .then((data) =>
+        setAllShows(data.sort((a, b) => b.rating.average - a.rating.average))
+      );
   }, []);
 
   return (

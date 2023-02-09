@@ -34,8 +34,6 @@ const LandingPage = ({
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarContent, setSnackbarContent] = useState("");
 
-  let allShowsCopy = [...allShows];
-
   const handleOpen = (message) => {
     setOpenSnackbar(true);
     setSnackbarContent(message);
@@ -58,18 +56,20 @@ const LandingPage = ({
     handlePageChange(null, currentPage);
   }, [currentPage, handlePageChange]);
 
+  useEffect(() => {}, [sortBy, allShows]);
+
   let filteredShows;
   let totalPages;
 
   if (selectedGenres.length) {
-    filteredShows = allShowsCopy.filter((show) =>
+    filteredShows = allShows.filter((show) =>
       show.genres.some((genre) =>
         selectedGenres.some((selectedGenre) => selectedGenre === genre)
       )
     );
     totalPages = Math.ceil(filteredShows.length / 24);
   } else {
-    filteredShows = allShowsCopy.slice();
+    filteredShows = allShows.slice();
     totalPages = Math.ceil(filteredShows.length / 24);
   }
 
@@ -88,21 +88,25 @@ const LandingPage = ({
 
   switch (sortBy) {
     case "name a-z":
-      allShowsCopy = [...allShows.sort((a, b) => a.name.localeCompare(b.name))];
+      setAllShows((allShows) =>
+        allShows.sort((a, b) => a.name.localeCompare(b.name))
+      );
       break;
     case "name z-a":
-      allShowsCopy = [...allShows.sort((a, b) => b.name.localeCompare(a.name))];
+      setAllShows((allShows) =>
+        allShows.sort((a, b) => b.name.localeCompare(a.name))
+      );
       break;
     case "rating low-hi":
-      allShowsCopy = [
-        ...allShows.sort((a, b) => a.rating.average - b.rating.average),
-      ];
+      setAllShows((allShows) =>
+        allShows.sort((a, b) => a.rating.average - b.rating.average)
+      );
       break;
     case "rating hi-low":
     default:
-      allShowsCopy = [
-        ...allShows.sort((a, b) => b.rating.average - a.rating.average),
-      ];
+      setAllShows((allShows) =>
+        allShows.sort((a, b) => b.rating.average - a.rating.average)
+      );
   }
 
   const searchShows = (query) => {
