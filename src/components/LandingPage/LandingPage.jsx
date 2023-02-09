@@ -13,7 +13,13 @@ const paginationReducer = (_, action) => {
   };
 };
 
-const LandingPage = ({ allShows, openDrawer, selectedGenres, minRating }) => {
+const LandingPage = ({
+  allShows,
+  openDrawer,
+  selectedGenres,
+  minRating,
+  setAllShows,
+}) => {
   const navigate = useNavigate();
   const currentPage = +useParams().page.slice(-1);
 
@@ -27,6 +33,8 @@ const LandingPage = ({ allShows, openDrawer, selectedGenres, minRating }) => {
   });
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarContent, setSnackbarContent] = useState("");
+
+  let allShowsCopy = [...allShows];
 
   const handleOpen = (message) => {
     setOpenSnackbar(true);
@@ -54,14 +62,14 @@ const LandingPage = ({ allShows, openDrawer, selectedGenres, minRating }) => {
   let totalPages;
 
   if (selectedGenres.length) {
-    filteredShows = allShows.filter((show) =>
+    filteredShows = allShowsCopy.filter((show) =>
       show.genres.some((genre) =>
         selectedGenres.some((selectedGenre) => selectedGenre === genre)
       )
     );
     totalPages = Math.ceil(filteredShows.length / 24);
   } else {
-    filteredShows = allShows.slice();
+    filteredShows = allShowsCopy.slice();
     totalPages = Math.ceil(filteredShows.length / 24);
   }
 
@@ -78,29 +86,24 @@ const LandingPage = ({ allShows, openDrawer, selectedGenres, minRating }) => {
     ? searchResults
     : filteredShows.slice(paginationState.from, paginationState.to);
 
-  // switch (sortBy) {
-  //   case "name a-z":
-  //     allShows.sort((a, b) => a.name.localeCompare(b.name));
-  //     break;
-  //   case "name z-a":
-  //     allShows.sort((a, b) => b.name.localeCompare(a.name));
-  //     break;
-  //   case "rating low-hi":
-  //     allShows.sort((a, b) => a.rating.average - b.rating.average);
-  //     break;
-  //   case "rating hi-low":
-  //   default:
-  //     allShows.sort((a, b) => b.rating.average - a.rating.average);
-  // }
-
-  if (sortBy === "rating hi-low")
-    allShows.sort((a, b) => b.rating.average - a.rating.average);
-  if (sortBy === "rating low-hi")
-    allShows.sort((a, b) => a.rating.average - b.rating.average);
-  if (sortBy === "name a-z")
-    allShows.sort((a, b) => a.name.localeCompare(b.name));
-  if (sortBy === "name z-a")
-    allShows.sort((a, b) => b.name.localeCompare(a.name));
+  switch (sortBy) {
+    case "name a-z":
+      allShowsCopy = [...allShows.sort((a, b) => a.name.localeCompare(b.name))];
+      break;
+    case "name z-a":
+      allShowsCopy = [...allShows.sort((a, b) => b.name.localeCompare(a.name))];
+      break;
+    case "rating low-hi":
+      allShowsCopy = [
+        ...allShows.sort((a, b) => a.rating.average - b.rating.average),
+      ];
+      break;
+    case "rating hi-low":
+    default:
+      allShowsCopy = [
+        ...allShows.sort((a, b) => b.rating.average - a.rating.average),
+      ];
+  }
 
   const searchShows = (query) => {
     if (query) {

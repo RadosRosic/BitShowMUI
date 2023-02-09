@@ -49,7 +49,7 @@ const Filters = ({
     <Drawer anchor="left" open={isDrawerOpen} onClose={closeDrawer}>
       <FormControl sx={{ width: "320px", p: 3 }}>
         <FormLabel component="legend">Select Genres</FormLabel>
-        <FormGroup sx={{ height: "500px" }}>
+        <FormGroup sx={{ height: "470px" }}>
           {genres.map((genre) => (
             <FormControlLabel
               key={genre}

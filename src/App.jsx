@@ -56,6 +56,7 @@ const App = () => {
             element={
               <LandingPage
                 allShows={allShows}
+                setAllShows={setAllShows}
                 openDrawer={setIsDrawerOpen}
                 selectedGenres={selectedGenres}
                 minRating={minRating}
