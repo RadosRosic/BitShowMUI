@@ -2,6 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { Stack, Paper, Box, Grid } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { useSelector } from "react-redux";
 
 import ShowAccordion from "./ShowAccordion";
 import ShowPoster from "./ShowPoster";
@@ -10,8 +11,9 @@ import SeasonsInfo from "./SeasonsInfo";
 import ShowImages2 from "./ShowImages2";
 import ShowInfo from "./ShowInfo";
 
-const DetailsPage = ({ allShows }) => {
+const DetailsPage = () => {
   const id = useParams().id;
+  const allShows = useSelector((state) => state.allShows.allShows);
   const smallScreen = useMediaQuery("(max-width:599px)");
   const mediumScreen = useMediaQuery("(min-width:600px)");
   const largeScreen = useMediaQuery("(min-width:1440px)");

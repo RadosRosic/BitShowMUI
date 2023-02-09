@@ -3,6 +3,7 @@ import { Box } from "@mui/system";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 const ShowPoster = ({ showImg }) => {
+  const smallScreenImageCenter = { display: "inline-block", m: "auto" };
   const smallScreen = useMediaQuery("(max-width:425px)");
 
   return (

@@ -1,4 +1,11 @@
 import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  selectGenre,
+  unselectGenre,
+  unselectAllGenres,
+  setMinRating,
+} from "../../store/allShowsSlice";
 import {
   Drawer,
   Checkbox,
@@ -12,33 +19,25 @@ import {
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-const Filters = ({
-  isDrawerOpen,
-  setIsDrawerOpen,
-  genres,
-  selectedGenres,
-  setSelectedGenres,
-  minRating,
-  setMinRating,
-}) => {
+const Filters = ({ isDrawerOpen, setIsDrawerOpen }) => {
+  const dispatch = useDispatch();
+  const genres = useSelector((state) => state.allShows.allGenres);
+  const minRating = useSelector((state) => state.allShows.minRating);
+  const selectedGenres = useSelector((state) => state.allShows.selectedGenres);
+
   const handleCheckboxChange = (event) => {
     event.target.checked
-      ? setSelectedGenres((previousState) => [
-          ...previousState,
-          event.target.value,
-        ])
-      : setSelectedGenres((previousState) =>
-          previousState.filter((genre) => genre !== event.target.value)
-        );
+      ? dispatch(selectGenre(event.target.value))
+      : dispatch(unselectGenre(event.target.value));
   };
 
   const handleSliderChange = (newRating) => {
-    setMinRating(newRating);
+    dispatch(setMinRating(newRating));
   };
 
   const resetFilters = () => {
-    setMinRating(1);
-    setSelectedGenres([]);
+    dispatch(setMinRating(1));
+    dispatch(unselectAllGenres());
   };
 
   const closeDrawer = () => {
@@ -49,7 +48,7 @@ const Filters = ({
     <Drawer anchor="left" open={isDrawerOpen} onClose={closeDrawer}>
       <FormControl sx={{ width: "320px", p: 3 }}>
         <FormLabel component="legend">Select Genres</FormLabel>
-        <FormGroup sx={{ height: "470px" }}>
+        <FormGroup sx={{ height: "500px" }}>
           {genres.map((genre) => (
             <FormControlLabel
               key={genre}

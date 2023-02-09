@@ -1,8 +1,14 @@
-import React, { useState, useReducer, useEffect, useCallback } from "react";
+import React, { useState, useReducer, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  filterByGenres,
+  unfilterByGenres,
+  sortShows,
+} from "../../store/allShowsSlice";
 
-import ShowCard from "./ShowCard";
 import { Stack, Grid, Pagination, Snackbar } from "@mui/material";
+import ShowCard from "./ShowCard";
 import Settings from "./Settings";
 
 const paginationReducer = (_, action) => {
@@ -13,17 +19,16 @@ const paginationReducer = (_, action) => {
   };
 };
 
-const LandingPage = ({
-  allShows,
-  openDrawer,
-  selectedGenres,
-  minRating,
-  setAllShows,
-}) => {
+const LandingPage = ({ openDrawer }) => {
   const navigate = useNavigate();
   const currentPage = +useParams().page.slice(-1);
+  const dispatch = useDispatch();
 
-  const [sortBy, setSortBy] = useState("rating hi-low");
+  const shows = useSelector((state) => state.allShows.shows);
+  const genres = useSelector((state) => state.allShows.selectedGenres);
+  const sortBy = useSelector((state) => state.allShows.sortBy);
+  const minRating = useSelector((state) => state.allShows.minRating);
+
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [paginationState, dispatchPagination] = useReducer(paginationReducer, {
@@ -31,6 +36,9 @@ const LandingPage = ({
     from: 0,
     to: 24,
   });
+
+  const { from, to } = paginationState;
+
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarContent, setSnackbarContent] = useState("");
 
@@ -44,99 +52,60 @@ const LandingPage = ({
     setSnackbarContent("");
   };
 
-  const handlePageChange = useCallback(
-    (_, newPage) => {
-      dispatchPagination({ page: newPage });
-      navigate(`/page-${newPage}`);
-    },
-    [navigate]
-  );
+  const handlePageChange = (_, newPage) => {
+    dispatchPagination({ page: newPage });
+    navigate(`/page-${newPage}`);
+  };
 
   useEffect(() => {
     handlePageChange(null, currentPage);
-  }, [currentPage, handlePageChange]);
+  }, [currentPage]);
 
-  useEffect(() => {}, [sortBy, allShows]);
-
-  let filteredShows;
-  let totalPages;
-
-  if (selectedGenres.length) {
-    filteredShows = allShows.filter((show) =>
-      show.genres.some((genre) =>
-        selectedGenres.some((selectedGenre) => selectedGenre === genre)
-      )
-    );
-    totalPages = Math.ceil(filteredShows.length / 24);
-  } else {
-    filteredShows = allShows.slice();
-    totalPages = Math.ceil(filteredShows.length / 24);
-  }
-
-  if (minRating > 1) {
-    filteredShows = filteredShows.filter(
-      (show) => show.rating.average >= minRating
-    );
-    totalPages = Math.ceil(filteredShows.length / 24);
-  } else {
-    filteredShows = filteredShows.slice();
-  }
-
-  const displayShows = searchQuery
-    ? searchResults
-    : filteredShows.slice(paginationState.from, paginationState.to);
-
-  switch (sortBy) {
-    case "name a-z":
-      setAllShows((allShows) =>
-        allShows.sort((a, b) => a.name.localeCompare(b.name))
-      );
-      break;
-    case "name z-a":
-      setAllShows((allShows) =>
-        allShows.sort((a, b) => b.name.localeCompare(a.name))
-      );
-      break;
-    case "rating low-hi":
-      setAllShows((allShows) =>
-        allShows.sort((a, b) => a.rating.average - b.rating.average)
-      );
-      break;
-    case "rating hi-low":
-    default:
-      setAllShows((allShows) =>
-        allShows.sort((a, b) => b.rating.average - a.rating.average)
-      );
-  }
+  useEffect(() => {
+    if (genres.length) {
+      dispatch(filterByGenres());
+    }
+    if (!genres.length) {
+      dispatch(unfilterByGenres());
+    }
+    dispatch(sortShows(sortBy));
+  }, [genres.length, sortBy, dispatch]);
 
   const searchShows = (query) => {
     if (query) {
-      const searchedShows = filteredShows.filter((show) =>
+      const searchedShows = shows.filter((show) =>
         show.name.toLowerCase().includes(query.toLowerCase())
       );
       setSearchResults(searchedShows);
-    } else {
-      setSearchResults([]);
     }
   };
+
+  const displayShows = searchQuery ? searchResults : shows;
+
+  const totalPages = Math.ceil(displayShows.length / 24);
+
+  const renderShowsJSX = (
+    <Grid container spacing={3} p={4} component="main">
+      {displayShows
+        ?.filter((show) => show.rating.average >= minRating)
+        ?.slice(from, to)
+        .map((show) => (
+          <Grid item key={show.id} xl={2} lg={3} md={4} sm={6} xs={12}>
+            <ShowCard show={show} displaySnackbar={handleOpen} />
+          </Grid>
+        ))}
+    </Grid>
+  );
 
   return (
     <Stack alignItems="center">
       <Settings
-        sortBy={sortBy}
-        setSortBy={setSortBy}
         openDrawer={openDrawer}
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         searchShows={searchShows}
       />
-      <Grid container spacing={3} p={4} component="main">
-        {displayShows.map((show) => (
-          <Grid item key={show.id} xl={2} lg={3} md={4} sm={6} xs={12}>
-            <ShowCard show={show} displaySnackbar={handleOpen} />
-          </Grid>
-        ))}
-      </Grid>
+      {renderShowsJSX}
       <Pagination
         sx={{ p: 1 }}
         variant="outlined"

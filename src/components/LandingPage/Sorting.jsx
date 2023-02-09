@@ -1,9 +1,14 @@
 import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { sortShows } from "../../store/allShowsSlice";
 import { TextField, MenuItem } from "@mui/material";
 
-const Sorting = ({ startingValue, setSortBy }) => {
+const Sorting = () => {
+  const startingValue = useSelector((state) => state.allShows.sortBy);
+  const dispatch = useDispatch();
+
   const handleSorting = (event) => {
-    setSortBy(event.target.value);
+    dispatch(sortShows(event.target.value));
   };
 
   return (

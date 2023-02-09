@@ -45,7 +45,6 @@ const ShowCard = ({ show, displaySnackbar }) => {
     localStorage.removeItem(`watch list ${id}`);
     setWatchLater(false);
   };
-
   return (
     <>
       <Card>

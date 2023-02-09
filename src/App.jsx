@@ -2,21 +2,24 @@ import React, { useState, useEffect } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
+import { useDispatch } from "react-redux";
+import { setGenres, setShows } from "./store/allShowsSlice";
 
 import MainHeader from "./components/MainHeader";
 import LandingPage from "./components/LandingPage/LandingPage";
 import DetailsPage from "./components/DetailsPage/DetailsPage";
 import Filters from "./components/LandingPage/Filters";
 
+const getGenres = (shows) => {
+  return [...new Set(shows.map((show) => show.genres).flat())].sort();
+};
+
 const App = () => {
+  const dispatch = useDispatch();
+
   const [darkMode, setDarkMode] = useState(!!localStorage.getItem("dark mode"));
-  const [allShows, setAllShows] = useState([]);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [selectedGenres, setSelectedGenres] = useState([]);
   const [minRating, setMinRating] = useState(1);
-  const genres = [
-    ...new Set(allShows.map((show) => show.genres).flat()),
-  ].sort();
 
   const darkTheme = createTheme({
     palette: {
@@ -37,10 +40,11 @@ const App = () => {
   useEffect(() => {
     fetch("https://api.tvmaze.com/shows")
       .then((res) => res.json())
-      .then((data) =>
-        setAllShows(data.sort((a, b) => b.rating.average - a.rating.average))
-      );
-  }, []);
+      .then((data) => {
+        dispatch(setShows(data));
+        dispatch(setGenres(getGenres(data)));
+      });
+  }, [dispatch]);
 
   return (
     <>
@@ -56,26 +60,14 @@ const App = () => {
           <Route
             path="/:page"
             element={
-              <LandingPage
-                allShows={allShows}
-                setAllShows={setAllShows}
-                openDrawer={setIsDrawerOpen}
-                selectedGenres={selectedGenres}
-                minRating={minRating}
-              />
+              <LandingPage openDrawer={setIsDrawerOpen} minRating={minRating} />
             }
           />
-          <Route
-            path="/show/:id"
-            element={<DetailsPage allShows={allShows} />}
-          />
+          <Route path="/show/:id" element={<DetailsPage />} />
         </Routes>
         <Filters
           isDrawerOpen={isDrawerOpen}
           setIsDrawerOpen={setIsDrawerOpen}
-          genres={genres}
-          selectedGenres={selectedGenres}
-          setSelectedGenres={setSelectedGenres}
           minRating={minRating}
           setMinRating={setMinRating}
         />
