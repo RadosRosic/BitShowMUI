@@ -78,20 +78,29 @@ const LandingPage = ({ allShows, openDrawer, selectedGenres, minRating }) => {
     ? searchResults
     : filteredShows.slice(paginationState.from, paginationState.to);
 
-  switch (sortBy) {
-    case "name a-z":
-      allShows.sort((a, b) => a.name.localeCompare(b.name));
-      break;
-    case "name z-a":
-      allShows.sort((a, b) => b.name.localeCompare(a.name));
-      break;
-    case "rating low-hi":
-      allShows.sort((a, b) => a.rating.average - b.rating.average);
-      break;
-    case "rating hi-low":
-    default:
-      allShows.sort((a, b) => b.rating.average - a.rating.average);
-  }
+  // switch (sortBy) {
+  //   case "name a-z":
+  //     allShows.sort((a, b) => a.name.localeCompare(b.name));
+  //     break;
+  //   case "name z-a":
+  //     allShows.sort((a, b) => b.name.localeCompare(a.name));
+  //     break;
+  //   case "rating low-hi":
+  //     allShows.sort((a, b) => a.rating.average - b.rating.average);
+  //     break;
+  //   case "rating hi-low":
+  //   default:
+  //     allShows.sort((a, b) => b.rating.average - a.rating.average);
+  // }
+
+  if (sortBy === "rating hi-low")
+    allShows.sort((a, b) => b.rating.average - a.rating.average);
+  if (sortBy === "rating low-hi")
+    allShows.sort((a, b) => a.rating.average - b.rating.average);
+  if (sortBy === "name a-z")
+    allShows.sort((a, b) => a.name.localeCompare(b.name));
+  if (sortBy === "name z-a")
+    allShows.sort((a, b) => b.name.localeCompare(a.name));
 
   const searchShows = (query) => {
     if (query) {
