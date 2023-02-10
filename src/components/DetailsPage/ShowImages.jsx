@@ -3,11 +3,14 @@ import { useParams } from "react-router-dom";
 import { IconButton, Paper, Box } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const ShowImages = () => {
   const id = useParams().id;
   const [images, setImages] = useState([]);
   const [imageIndex, setImageIndex] = useState(0);
+  const smallScreen = useMediaQuery("(max-width:599px)");
+  const imgSize = smallScreen ? "235px" : "360px";
 
   const imagePrevious = () => {
     if (imageIndex > 0) {
@@ -47,7 +50,7 @@ const ShowImages = () => {
         <Box
           component="img"
           src={images[imageIndex]?.resolutions?.original?.url}
-          width={"360px"}
+          width={imgSize}
         />
         <IconButton onClick={imageNext}>
           <ArrowForwardIosIcon />
