@@ -8,7 +8,7 @@ import ShowAccordion from "./ShowAccordion";
 import ShowPoster from "./ShowPoster";
 import CastList from "./CastList";
 import SeasonsInfo from "./SeasonsInfo";
-import ShowImages2 from "./ShowImages2";
+import ShowImages from "./ShowImages";
 import ShowInfo from "./ShowInfo";
 
 const DetailsPage = () => {
@@ -27,7 +27,7 @@ const DetailsPage = () => {
             <ShowInfo show={show} />
           </Grid>
           <Grid item xs={4}>
-            <ShowImages2 />
+            <ShowImages />
           </Grid>
           <Grid item sx={{ overflow: "hidden" }}>
             <Paper sx={{ p: 1 }} elevation={5}>
@@ -52,7 +52,7 @@ const DetailsPage = () => {
             </Paper>
           </Grid>
           <Grid item md={12} sx={{ m: "auto" }}>
-            <ShowImages2 />
+            <ShowImages />
           </Grid>
         </Grid>
       )}
