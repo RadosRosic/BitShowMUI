@@ -58,9 +58,12 @@ const ShowCard = ({ show, displaySnackbar }) => {
           <Avatar>{show.rating.average}</Avatar>
         </CardContent>
         <CardActions sx={flexSBC}>
-          <Button size="medium" color="primary">
-            <Link to={`/show/${show.id}`}>More info</Link>
-          </Button>
+          <Link to={`/show/${show.id}`}>
+            <Button size="medium" color="primary">
+              More info
+            </Button>
+          </Link>
+
           <ButtonGroup>
             {!favShow && (
               <IconButton
