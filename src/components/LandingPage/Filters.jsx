@@ -46,7 +46,7 @@ const Filters = ({ isDrawerOpen, setIsDrawerOpen }) => {
 
   return (
     <Drawer anchor="left" open={isDrawerOpen} onClose={closeDrawer}>
-      <FormControl sx={{ width: "320px", p: 3 }}>
+      <FormControl sx={{ width: "320px", p: 2 }}>
         <FormLabel component="legend">Select Genres</FormLabel>
         <FormGroup sx={{ height: "500px" }}>
           {genres.map((genre) => (
@@ -64,7 +64,7 @@ const Filters = ({ isDrawerOpen, setIsDrawerOpen }) => {
           ))}
         </FormGroup>
       </FormControl>
-      <FormControl sx={{ p: 3 }}>
+      <FormControl sx={{ p: 2 }}>
         <FormLabel component="legend">Minimum Rating</FormLabel>
         <Slider
           max={10}
