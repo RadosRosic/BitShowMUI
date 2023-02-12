@@ -21,7 +21,7 @@ const MainHeader = ({ changeThemeDark, changeThemeLight, darkMode }) => {
           p: 3,
         }}
       >
-        <Typography variant="h4" component="h1">
+        <Typography variant="h4" component="h1" fontFamily={"Limelight"}>
           <Link to="/">BIT Show</Link>
         </Typography>
         <Stack
