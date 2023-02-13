@@ -16,8 +16,10 @@ const Root = () => {
     },
   });
 
+  console.log(params);
+
   useEffect(() => {
-    if (!params.page) {
+    if (!params.page && !params.id) {
       navigate("page-1");
     }
   }, [navigate, params.page]);
