@@ -20,7 +20,7 @@ const Root = () => {
     if (!params.page) {
       navigate("page-1");
     }
-  }, []);
+  }, [navigate, params.page]);
 
   return (
     <ThemeProvider theme={darkTheme}>
