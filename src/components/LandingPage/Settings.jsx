@@ -1,4 +1,6 @@
 import React from "react";
+import { openDrawer } from "../../store/allShowsSlice";
+import { useDispatch } from "react-redux";
 import TuneIcon from "@mui/icons-material/Tune";
 import { Button, Stack } from "@mui/material";
 import Sorting from "./Sorting";
@@ -7,11 +9,16 @@ import Search from "./Search";
 const Settings = ({
   sortBy,
   setSortBy,
-  openDrawer,
   searchQuery,
   setSearchQuery,
   searchShows,
 }) => {
+  const dispatch = useDispatch();
+
+  const openDrawerHandler = () => {
+    dispatch(openDrawer());
+  };
+
   return (
     <Stack
       direction={{ xs: "column", md: "row" }}
@@ -21,11 +28,7 @@ const Settings = ({
       m="auto"
       width={{ xs: "80%", sm: "50%", md: "80%" }}
     >
-      <Button
-        endIcon={<TuneIcon />}
-        size="large"
-        onClick={() => openDrawer(true)}
-      >
+      <Button endIcon={<TuneIcon />} size="large" onClick={openDrawerHandler}>
         Filters
       </Button>
       <Search

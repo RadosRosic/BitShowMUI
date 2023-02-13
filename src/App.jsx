@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setGenres, setShows } from "./store/allShowsSlice";
 
 import MainHeader from "./components/MainHeader";
@@ -16,26 +16,13 @@ const getGenres = (shows) => {
 
 const App = () => {
   const dispatch = useDispatch();
-
-  const [darkMode, setDarkMode] = useState(!!localStorage.getItem("dark mode"));
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [minRating, setMinRating] = useState(1);
+  const darkMode = useSelector((state) => state.theme.darkMode);
 
   const darkTheme = createTheme({
     palette: {
       mode: darkMode ? "dark" : "light",
     },
   });
-
-  const changeThemeDark = () => {
-    setDarkMode(true);
-    localStorage.setItem("dark mode", "1");
-  };
-
-  const changeThemeLight = () => {
-    setDarkMode(false);
-    localStorage.removeItem("dark mode");
-  };
 
   useEffect(() => {
     fetch("https://api.tvmaze.com/shows")
@@ -50,27 +37,13 @@ const App = () => {
     <>
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
-        <MainHeader
-          darkMode={darkMode}
-          changeThemeDark={changeThemeDark}
-          changeThemeLight={changeThemeLight}
-        />
+        <MainHeader />
         <Routes>
           <Route path="/" element={<Navigate to="/page-1" />} />
-          <Route
-            path="/:page"
-            element={
-              <LandingPage openDrawer={setIsDrawerOpen} minRating={minRating} />
-            }
-          />
+          <Route path="/:page" element={<LandingPage />} />
           <Route path="/show/:id" element={<DetailsPage />} />
         </Routes>
-        <Filters
-          isDrawerOpen={isDrawerOpen}
-          setIsDrawerOpen={setIsDrawerOpen}
-          minRating={minRating}
-          setMinRating={setMinRating}
-        />
+        <Filters />
       </ThemeProvider>
     </>
   );

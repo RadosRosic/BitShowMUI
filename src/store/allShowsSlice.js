@@ -6,12 +6,20 @@ export const allShowsSlice = createSlice({
     allShows: [],
     allGenres: [],
     shows: [],
+    isDrawerOpen: false,
     minRating: 1,
     selectedGenres: [],
     sortBy: "rating hi-low",
     page: 1,
   },
   reducers: {
+    openDrawer: (state) => {
+      state.isDrawerOpen = true;
+    },
+    closeDrawer: (state) => {
+      state.isDrawerOpen = false;
+    },
+
     setShows: (state, action) => {
       state.allShows = action.payload.sort(
         (a, b) => b.rating.average - a.rating.average
@@ -79,6 +87,8 @@ export const {
   unfilterByGenres,
   setMinRating,
   unselectAllGenres,
+  openDrawer,
+  closeDrawer,
 } = allShowsSlice.actions;
 
 export default allShowsSlice.reducer;

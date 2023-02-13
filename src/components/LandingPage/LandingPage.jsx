@@ -19,7 +19,7 @@ const paginationReducer = (_, action) => {
   };
 };
 
-const LandingPage = ({ openDrawer }) => {
+const LandingPage = () => {
   const navigate = useNavigate();
   const currentPage = +useParams().page.slice(-1);
   const dispatch = useDispatch();
@@ -100,7 +100,6 @@ const LandingPage = ({ openDrawer }) => {
   return (
     <Stack alignItems="center">
       <Settings
-        openDrawer={openDrawer}
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         searchShows={searchShows}

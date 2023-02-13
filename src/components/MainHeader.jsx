@@ -1,5 +1,8 @@
 import React from "react";
 
+import { useSelector, useDispatch } from "react-redux";
+import { darkModeOn, darkModeOff } from "../store/themeSlice";
+
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -9,7 +12,17 @@ import { IconButton } from "@mui/material";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 
-const MainHeader = ({ changeThemeDark, changeThemeLight, darkMode }) => {
+const MainHeader = () => {
+  const darkMode = useSelector((state) => state.theme.darkMode);
+  const dispatch = useDispatch();
+
+  const setLightMode = () => {
+    dispatch(darkModeOff());
+  };
+  const setDarkMode = () => {
+    dispatch(darkModeOn());
+  };
+
   return (
     <AppBar position="static">
       <Toolbar
@@ -30,7 +43,7 @@ const MainHeader = ({ changeThemeDark, changeThemeLight, darkMode }) => {
           component="nav"
           alignItems={"center"}
         >
-          <IconButton onClick={darkMode ? changeThemeLight : changeThemeDark}>
+          <IconButton onClick={darkMode ? setLightMode : setDarkMode}>
             {darkMode ? <LightModeIcon /> : <DarkModeIcon />}
           </IconButton>
         </Stack>

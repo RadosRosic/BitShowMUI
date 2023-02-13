@@ -5,6 +5,7 @@ import {
   unselectGenre,
   unselectAllGenres,
   setMinRating,
+  closeDrawer,
 } from "../../store/allShowsSlice";
 import {
   Drawer,
@@ -19,8 +20,9 @@ import {
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-const Filters = ({ isDrawerOpen, setIsDrawerOpen }) => {
+const Filters = () => {
   const dispatch = useDispatch();
+  const isDrawerOpen = useSelector((state) => state.allShows.isDrawerOpen);
   const genres = useSelector((state) => state.allShows.allGenres);
   const minRating = useSelector((state) => state.allShows.minRating);
   const selectedGenres = useSelector((state) => state.allShows.selectedGenres);
@@ -40,12 +42,12 @@ const Filters = ({ isDrawerOpen, setIsDrawerOpen }) => {
     dispatch(unselectAllGenres());
   };
 
-  const closeDrawer = () => {
-    setIsDrawerOpen(false);
+  const closeDrawerHandler = () => {
+    dispatch(closeDrawer());
   };
 
   return (
-    <Drawer anchor="left" open={isDrawerOpen} onClose={closeDrawer}>
+    <Drawer anchor="left" open={isDrawerOpen} onClose={closeDrawerHandler}>
       <FormControl sx={{ width: "320px", p: 2 }}>
         <FormLabel component="legend">Select Genres</FormLabel>
         <FormGroup sx={{ height: "500px" }}>
@@ -84,7 +86,7 @@ const Filters = ({ isDrawerOpen, setIsDrawerOpen }) => {
       </Button>
       <IconButton
         aria-label="Close Drawer"
-        onClick={closeDrawer}
+        onClick={closeDrawerHandler}
         sx={{ width: "10%", mx: "auto" }}
       >
         <ArrowBackIcon />
