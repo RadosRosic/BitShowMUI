@@ -10,6 +10,7 @@ import {
 import { Stack, Grid, Pagination, Snackbar } from "@mui/material";
 import ShowCard from "./ShowCard";
 import Settings from "./Settings";
+import Filters from "./Filters";
 
 const paginationReducer = (_, action) => {
   return {
@@ -19,7 +20,7 @@ const paginationReducer = (_, action) => {
   };
 };
 
-const LandingPage = () => {
+const LandingPage = ({ openDrawer }) => {
   const navigate = useNavigate();
   const currentPage = +useParams().page.slice(-1);
   const dispatch = useDispatch();
@@ -99,7 +100,9 @@ const LandingPage = () => {
 
   return (
     <Stack alignItems="center">
+      <Filters />
       <Settings
+        openDrawer={openDrawer}
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         searchShows={searchShows}

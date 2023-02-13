@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Navigate, Outlet } from "react-router-dom";
-import Filters from "./components/LandingPage/Filters";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
 import MainHeader from "./components/MainHeader";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 
 const Root = () => {
+  const navigate = useNavigate();
+  const params = useParams();
   const darkMode = useSelector((state) => state.theme.darkMode);
 
   const darkTheme = createTheme({
@@ -15,15 +16,20 @@ const Root = () => {
     },
   });
 
+  console.log(params.page);
+
+  useEffect(() => {
+    if (!params.page) {
+      navigate("page-1");
+    }
+  }, []);
+
   return (
-    <>
-      <ThemeProvider theme={darkTheme}>
-        <CssBaseline />
-        <MainHeader />
-        <Filters />
-        <Outlet />
-      </ThemeProvider>
-    </>
+    <ThemeProvider theme={darkTheme}>
+      <CssBaseline />
+      <MainHeader />
+      <Outlet />
+    </ThemeProvider>
   );
 };
 
