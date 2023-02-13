@@ -1,6 +1,7 @@
 {
   "name": "bitshow",
   "version": "0.1.0",
+  "homepage": "/page-1",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.5",

@@ -35,7 +35,7 @@ const MainHeader = () => {
         }}
       >
         <Typography variant="h4" component="h1" fontFamily={"Limelight"}>
-          <Link to="/">BIT Show</Link>
+          <Link to="/page-1">BIT Show</Link>
         </Typography>
         <Stack
           direction="row"
