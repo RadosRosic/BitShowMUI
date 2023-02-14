@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import { useDispatch } from "react-redux";
-import { setGenres, setShows } from "./store/allShowsSlice";
+import { setGenres, setShows, setLoading } from "./store/allShowsSlice";
 
 import LandingPage from "./components/LandingPage/LandingPage";
 import DetailsPage from "./components/DetailsPage/DetailsPage";
@@ -27,11 +27,14 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(setLoading(true));
+
     fetch("https://api.tvmaze.com/shows")
       .then((res) => res.json())
       .then((data) => {
         dispatch(setShows(data));
         dispatch(setGenres(getGenres(data)));
+        dispatch(setLoading(false));
       });
   }, [dispatch]);
 

@@ -16,13 +16,11 @@ const Root = () => {
     },
   });
 
-  console.log(params);
-
   useEffect(() => {
     if (!params.page && !params.id) {
       navigate("page-1");
     }
-  }, [navigate, params.page]);
+  }, [navigate, params.page, params.id]);
 
   return (
     <ThemeProvider theme={darkTheme}>

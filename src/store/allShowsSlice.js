@@ -11,6 +11,7 @@ export const allShowsSlice = createSlice({
     selectedGenres: [],
     sortBy: "rating hi-low",
     page: 1,
+    loading: true,
   },
   reducers: {
     openDrawer: (state) => {
@@ -74,6 +75,9 @@ export const allShowsSlice = createSlice({
     setMinRating: (state, action) => {
       state.minRating = action.payload;
     },
+    setLoading: (state) => {
+      state.loading = true;
+    },
   },
 });
 
@@ -89,6 +93,7 @@ export const {
   unselectAllGenres,
   openDrawer,
   closeDrawer,
+  setLoading,
 } = allShowsSlice.actions;
 
 export default allShowsSlice.reducer;
