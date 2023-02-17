@@ -22,7 +22,7 @@ const paginationReducer = (_, action) => {
 
 const LandingPage = ({ openDrawer }) => {
   const navigate = useNavigate();
-  const currentPage = +useParams().page.slice(-1);
+  const currentPage = +useParams().page.split("-")[1];
   const dispatch = useDispatch();
 
   const shows = useSelector((state) => state.allShows.shows);
