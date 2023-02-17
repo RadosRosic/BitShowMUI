@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Card,
   CardActions,
@@ -16,9 +17,14 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import WatchLaterIcon from "@mui/icons-material/WatchLater";
 import PlaylistRemoveIcon from "@mui/icons-material/PlaylistRemove";
 import { flexSBC } from "../../style";
-import { Link } from "react-router-dom";
 
 const ShowCard = ({ show, displaySnackbar }) => {
+  const navigate = useNavigate();
+
+  const seeShowDetails = () => {
+    navigate(`/show/${show.id}`);
+  };
+
   const [favShow, setFavShow] = useState(
     localStorage.getItem(`fav show ${show.id}`)
   );
@@ -47,7 +53,7 @@ const ShowCard = ({ show, displaySnackbar }) => {
   };
   return (
     <Card>
-      <CardActionArea>
+      <CardActionArea onClick={seeShowDetails}>
         <CardMedia component="img" src={show.image.medium} />
       </CardActionArea>
       <CardContent sx={flexSBC}>
@@ -57,11 +63,9 @@ const ShowCard = ({ show, displaySnackbar }) => {
         <Avatar>{show.rating.average}</Avatar>
       </CardContent>
       <CardActions sx={flexSBC}>
-        <Link to={`/show/${show.id}`}>
-          <Button size="medium" color="primary">
-            More info
-          </Button>
-        </Link>
+        <Button size="medium" color="primary" onClick={seeShowDetails}>
+          More info
+        </Button>
 
         <ButtonGroup>
           {!favShow && (
